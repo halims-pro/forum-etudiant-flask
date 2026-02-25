@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum EST Salé</title>
+</head>
+<body>
+    <h1>Forum de discussion</h1>
+
+    <div id="messages"></div>
+
+    <script>
+        // Connexion au WebSocket du backend
+        const socket = new WebSocket("ws://127.0.0.1:5000/ws");
+
+        socket.onmessage = function(event) {
+            const div = document.createElement("div");
+            div.textContent = event.data;
+            document.getElementById("messages").appendChild(div);
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("messageInput");
+            socket.send(input.value);
+            input.value = "";
+        }
+    </script>
+</body>
+</html>

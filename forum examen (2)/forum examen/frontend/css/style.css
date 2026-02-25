@@ -1,0 +1,158 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+input, button {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+}
+
+#messages {
+    border: 1px solid #ccc;
+    height: 300px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+}
+/* Reset simple */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f7f7f9;
+    color: #333;
+    padding: 40px;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+}
+
+/* Titres */
+h1, h2, h3 {
+    color: #b71c1c; /* rouge foncé */
+    margin-bottom: 15px;
+}
+
+h2 {
+    border-bottom: 2px solid #e53935;
+    padding-bottom: 8px;
+}
+
+/* Zone des messages */
+#messages {
+    border: 1px solid #f1c1c1;
+    background: #fff5f5;
+    height: 350px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Message individuel */
+.message {
+    background: #ffffff;
+    border-left: 4px solid #e53935;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.message .username {
+    font-weight: bold;
+    color: #b71c1c;
+}
+
+/* Zone d’envoi */
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.chat-input input:focus {
+    outline: none;
+    border-color: #e53935;
+    box-shadow: 0 0 0 2px rgba(229, 57, 53, 0.15);
+}
+
+/* Boutons */
+button {
+    background: linear-gradient(135deg, #e53935, #b71c1c);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Champs de formulaire */
+input, select {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Liens */
+a {
+    color: #e53935;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Petits badges (optionnel) */
+.badge {
+    display: inline-block;
+    background: #e53935;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+/* Footer simple */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+    font-size: 12px;
+}

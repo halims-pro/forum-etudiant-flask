@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panneau d'Administration - Forum EST Salé</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="header-content">
+            <h1><img src="https://cdn-icons-png.flaticon.com/512/2965/2965327.png" alt="Dashboard" class="flaticon-icon">Panneau d'Administration</h1>
+            <div class="header-right">
+                <span class="admin-name">Admin: <strong id="admin-name"></strong></span>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteneur principal -->
+    <div class="admin-container">
+        
+        <!-- Section Statistiques -->
+        <section class="admin-section">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/2920/2920326.png" alt="Graph" class="flaticon-icon">Statistiques</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Users" style="width: 48px; height: 48px;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stat-total-users">0</div>
+                        <div class="stat-label">Total Étudiants</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" alt="Check Circle" style="width: 48px; height: 48px;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stat-active-users">0</div>
+                        <div class="stat-label">Comptes Actifs</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" style="width: 48px; height: 48px;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stat-approved-users">0</div>
+                        <div class="stat-label">Comptes Approuvés</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="https://cdn-icons-png.flaticon.com/512/2463/2463183.png" alt="Chat Bubble" style="width: 48px; height: 48px;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stat-total-messages">0</div>
+                        <div class="stat-label">Total Messages</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="https://cdn-icons-png.flaticon.com/512/7518/7518748.png" alt="Double Check" style="width: 48px; height: 48px;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stat-validated-messages">0</div>
+                        <div class="stat-label">Messages Validés</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-pending">
+                    <div class="stat-icon"><img src="https://cdn-icons-png.flaticon.com/512/2488/2488138.png" alt="Hourglass" style="width: 48px; height: 48px;"></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stat-pending-messages">0</div>
+                        <div class="stat-label">En Attente</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Onglets -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('pending-accounts-tab')">
+                <img src="https://cdn-icons-png.flaticon.com/512/3608/3608123.png" alt="Bell" class="flaticon-icon">Comptes à Activer
+            </button>
+            <button class="tab-btn" onclick="showTab('approval-tab')">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="flaticon-icon">Comptes à Approuver
+            </button>
+            <button class="tab-btn" onclick="showTab('messages-tab')">
+                <img src="https://cdn-icons-png.flaticon.com/512/1157/1157225.png" alt="Document" class="flaticon-icon">Messages à Valider
+            </button>
+            <button class="tab-btn" onclick="showTab('users-tab')">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Users" class="flaticon-icon">Tous les Utilisateurs
+            </button>
+        </div>
+
+        <!-- Tab 1: Comptes à Activer -->
+        <section id="pending-accounts-tab" class="tab-content active">
+            <div class="section-header">
+                <h2><img src="https://cdn-icons-png.flaticon.com/512/3608/3608123.png" alt="Bell" class="flaticon-icon">Comptes en Attente d'Activation (Étape 1)</h2>
+                <p class="section-description">
+                    Ces comptes sont INACTIFS. Après activation, l'étudiant peut se connecter 
+                    mais ses messages nécessitent une validation.
+                </p>
+            </div>
+            <div id="pending-accounts-list" class="content-grid">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </section>
+
+        <!-- Tab 2: Comptes à Approuver -->
+        <section id="approval-tab" class="tab-content">
+            <div class="section-header">
+                <h2><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="flaticon-icon">Comptes à Approuver (Étape 2 - Distribution Automatique)</h2>
+                <p class="section-description">
+                    Ces comptes sont ACTIFS mais NON APPROUVÉS. Après approbation, 
+                    leurs messages seront distribués automatiquement sans validation.
+                </p>
+            </div>
+            <div id="unapproved-accounts-list" class="content-grid">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </section>
+
+        <!-- Tab 3: Messages à Valider -->
+        <section id="messages-tab" class="tab-content">
+            <div class="section-header">
+                <h2><img src="https://cdn-icons-png.flaticon.com/512/1157/1157225.png" alt="Document" class="flaticon-icon">Messages en Attente de Validation</h2>
+                <p class="section-description">
+                    Messages provenant d'utilisateurs actifs mais non approuvés.
+                </p>
+            </div>
+            <div id="pending-messages-list" class="messages-container">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </section>
+
+        <!-- Tab 4: Tous les Utilisateurs -->
+        <section id="users-tab" class="tab-content">
+            <div class="section-header">
+                <h2><img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Users" class="flaticon-icon">Tous les Utilisateurs Actifs</h2>
+                <p class="section-description">
+                    Liste de tous les utilisateurs avec leur statut d'approbation.
+                </p>
+            </div>
+            <div id="all-users-list">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Container pour les notifications -->
+    <div id="notification_container"></div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+    
+    <script>
+        // Gestion des onglets
+        function showTab(tabId) {
+            // Cacher tous les contenus
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Activer le contenu et le bouton sélectionnés
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
